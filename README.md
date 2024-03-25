@@ -1,4 +1,30 @@
 # Onboard Dynamic Object Detection and Tracking for Autonomous Mobile Robots  
+## 0. Reproducible Package
+Prerequisites:
+* [Docker](https://docs.docker.com/engine/install/ubuntu/)
+* [NVIDIA-Docker](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)
+* [OSRF-Rocker](https://github.com/osrf/rocker)
+
+Please download the rosbag files from this [link](https://cmu.box.com/s/aiixv3p3pzufodsrcv8a2yqpiibu28ds).
+
+**Terminal 1:**
+```
+rocker --env ROS_MASTER_URI=http://172.17.0.2:11311 \
+       --env ROS_IP=172.17.0.2 \
+       --nvidia --x11 \
+       ghcr.io/robotresearchrepos/zhefan-xu_onboard_detector:main \
+       roslaunch onboard_detector run_detector.launch
+```
+
+**Terminal 2:**
+```
+docker run --rm -it --volume .:/bags \
+           --env ROS_MASTER_URI=http://172.17.0.2:11311 \
+           --env ROS_IP=172.17.0.3 \
+           ros:noetic-ros-core \
+           rosbag play -l /bags/multi-objects.bag
+```
+
 ## I. Introduction
 This repository contains the implementation of Dynamic Obstacle Detection and Tracking (DODT) algorithm which aims at detecting and tracking dynamic obstacles for robots with extremely constraint computational resources.
 
